@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <form id="login-form" method="get">
+      <input id="saml-token" type="hidden" name="SAMLToken" />
+      <label>Username: <input type="text" placeholder="Enter your username..." value="" /></label>
+      <label>Password: <input type="password" placeholder="Enter your password" value="" /></label>
+      <button id="submit-button" type="submit" disabled>Log In</button>
+    </form>
+    <script type="text/javascript">
+      const parsedUrl = new URL(window.location.href);
+      const samlRequest = parsedUrl.searchParams.get('SAMLRequest');
+      const redirectURL = parsedUrl.searchParams.get('RedirectURL');
+      
+      if (!samlRequest) {
+        alert('SAMLRequest query string parameter is not provided!');
+        return;
+      }
+      
+      if (!redirectURL) {
+        alert('RedirectURL query string parameter is not provided!');
+        return;
+      }
+      
+      document.getElementById('saml-token').value = samlRequest;
+      document.getElementById('login-form').action = redirectURL;
+      document.getElementById('submit-button').removeAttribute('disabled');
+    </script>
+  </body>
+</html>
