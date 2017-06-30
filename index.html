@@ -9,10 +9,10 @@
       <p>SAML Portal</p>
       <input id="saml-token" type="hidden" name="SAMLToken" />
       <div class="form-field">
-        <label>Username: <input type="text" placeholder="Enter your username..." value="" /></label>
+        <label>Username: <input id="username" type="text" placeholder="Enter your username..." value="" disabled /></label>
       </div>
       <div class="form-field">
-        <label>Password: <input type="password" placeholder="Enter your password" value="" /></label>
+        <label>Password: <input id="password" type="password" placeholder="Enter your password" value="" disabled /></label>
       </div>
       <button id="submit-button" type="submit" disabled>Log In</button>
     </form>
@@ -32,6 +32,14 @@
           return;
         }
 
+        const decodedRequestParts = atob(samlRequest).split(':').map(function (token) { return token.trim(); });
+        if (decodedRequestParts.length !== 2) {
+          alert('SAMLRequest can not be decoded, decoding result is ' + atob(samlRequest));
+          return;
+        }
+
+        document.getElementById('username').value = decodedRequestParts[0];
+        document.getElementById('password').value = decodedRequestParts[1];
         document.getElementById('saml-token').value = samlRequest;
         document.querySelector('.login-form').action = redirectURL;
         document.getElementById('submit-button').removeAttribute('disabled');
