@@ -41,7 +41,7 @@
         document.getElementById('username').value = decodedRequestParts[0];
         document.getElementById('password').value = decodedRequestParts[1];
         document.getElementById('saml-token').value = samlRequest;
-        document.querySelector('.login-form').action = redirectURL;
+        document.querySelector('.login-form').action = redirectURL + location.hash;
         document.getElementById('submit-button').removeAttribute('disabled');
       }
 
